@@ -1,0 +1,12 @@
+include(CMakePackageConfigHelpers)
+function(remotedb_lonejson_metadata sdk)
+  file(MAKE_DIRECTORY "${sdk}/lib/cmake/lonejson" "${sdk}/lib/pkgconfig")
+  configure_file("${CMAKE_CURRENT_FUNCTION_LIST_DIR}/lonejson-core-config.cmake" "${sdk}/lib/cmake/lonejson/lonejsonConfig.cmake" COPYONLY)
+  write_basic_package_version_file("${sdk}/lib/cmake/lonejson/lonejsonConfigVersion.cmake" VERSION 0.44.0 COMPATIBILITY ExactVersion)
+  file(WRITE "${sdk}/lib/pkgconfig/lonejson.pc"
+    "prefix=\${pcfiledir}/../..\nlibdir=\${prefix}/lib\nincludedir=\${prefix}/include\nName: lonejson\nDescription: C89 lonejson core static closure\nVersion: 0.44.0\nLibs: -L\${libdir} -llonejson\nCflags: -I\${includedir}\n")
+  file(READ "${sdk}/include/lonejson.h" header)
+  string(CONCAT sample_root "/" "tmp/users.json")
+  string(REPLACE "${sample_root}" "users.json" header "${header}")
+  file(WRITE "${sdk}/include/lonejson.h" "${header}")
+endfunction()

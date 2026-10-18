@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.25)
+project(remotedb_lonejson_core C)
+# Build only upstream's one-file core closure, without its unrelated Lua,
+# crypto, HTTP or packaging tools. Source is an unchanged pinned release asset.
+include("${CMAKE_CURRENT_LIST_DIR}/../../Policy.cmake")
+add_library(lonejson_core STATIC "${REMOTEDB_LONEJSON_SOURCE}/src/lonejson.c")
+target_include_directories(lonejson_core PRIVATE "${REMOTEDB_LONEJSON_SOURCE}/include")
+target_compile_definitions(lonejson_core PRIVATE _POSIX_C_SOURCE=200809L _FILE_OFFSET_BITS=64 _DARWIN_C_SOURCE=1)
+remotedb_c89(lonejson_core)
+target_compile_options(lonejson_core PRIVATE "-ffile-prefix-map=${REMOTEDB_LONEJSON_SOURCE}=lonejson")
+set_target_properties(lonejson_core PROPERTIES OUTPUT_NAME lonejson POSITION_INDEPENDENT_CODE TRUE)
+install(TARGETS lonejson_core ARCHIVE DESTINATION lib)
+include("${CMAKE_CURRENT_LIST_DIR}/../../LonejsonMetadata.cmake")
+set(metadata "${CMAKE_CURRENT_BINARY_DIR}/metadata")
+file(COPY "${REMOTEDB_LONEJSON_SOURCE}/include/" DESTINATION "${metadata}/include")
+remotedb_lonejson_metadata("${metadata}")
+install(DIRECTORY "${metadata}/" DESTINATION .)
+install(FILES "${REMOTEDB_LONEJSON_SOURCE}/LICENSE" DESTINATION share/doc/liblonejson)

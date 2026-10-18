@@ -1,0 +1,9 @@
+prefix=${pcfiledir}/../..
+libdir=${prefix}/lib
+includedir=${prefix}/include
+Name: remotedbsrv
+Description: C89 streaming remote database server
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -lremotedbsrv
+Cflags: -I${includedir}
+Requires.private: lonejson = 0.44.0

@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: @@POD@@
+spec:
+  restartPolicy: Never
+  containers:
+    - name: server
+      image: @@SERVER_IMAGE@@
+      imagePullPolicy: Never
+      args: [@@KIND@@, @@CONTROL@@, "/state/definitions.jsonl", "/state/observations"]
+      securityContext:
+        runAsUser: @@UID@@
+        runAsGroup: @@GID@@
+        allowPrivilegeEscalation: false
+      volumeMounts:
+        - name: server-state
+          mountPath: /state
+@@SERVER_SOCKET_MOUNT@@
+    - name: client
+      image: @@CLIENT_IMAGE@@
+      imagePullPolicy: Never
+      args: ["idle"]
+      securityContext:
+        runAsUser: @@UID@@
+        runAsGroup: @@GID@@
+        allowPrivilegeEscalation: false
+      volumeMounts:
+        - name: client-work
+          mountPath: /work
+@@CLIENT_SOCKET_MOUNT@@
+  volumes:
+    - name: server-state
+      hostPath:
+        path: @@SERVER_STATE@@
+        type: Directory
+    - name: client-work
+      hostPath:
+        path: @@CLIENT_WORK@@
+        type: Directory
+@@SOCKET_VOLUME@@

@@ -1,0 +1,9 @@
+prefix=${pcfiledir}/../..
+libdir=${prefix}/lib
+includedir=${prefix}/include
+Name: remotedb
+Description: C89 streaming remote database client
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -lremotedb
+Cflags: -I${includedir}
+Requires.private: lonejson = 0.44.0

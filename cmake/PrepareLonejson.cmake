@@ -1,0 +1,7 @@
+include("${CMAKE_CURRENT_LIST_DIR}/LonejsonMetadata.cmake")
+file(REMOVE_RECURSE "${WORK}/source" "${SDK}")
+file(MAKE_DIRECTORY "${WORK}/source" "${SDK}")
+file(ARCHIVE_EXTRACT INPUT "${ARCHIVE}" DESTINATION "${WORK}/source")
+file(COPY "${WORK}/source/${ARCHIVE_ROOT}/" DESTINATION "${SDK}")
+remotedb_lonejson_metadata("${SDK}")
+file(TOUCH "${SDK}/lib/liblonejson.a" "${SDK}/include/lonejson.h")

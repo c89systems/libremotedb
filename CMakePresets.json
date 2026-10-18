@@ -1,0 +1,260 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "toolchainFile": "${sourceDir}/cmake/toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "REMOTEDB_BUILD_SHARED": "ON",
+        "REMOTEDB_DEPENDENCY_MODE": "mock"
+      }
+    },
+    {
+      "name": "debug",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "REMOTEDB_TARGET_ID": "x86_64-linux-gnu",
+        "REMOTEDB_BUILD_TESTS": "ON",
+        "REMOTEDB_BUILD_EXAMPLES": "ON"
+      }
+    },
+    {
+      "name": "valgrind",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "REMOTEDB_TARGET_ID": "x86_64-linux-gnu",
+        "REMOTEDB_BUILD_TESTS": "ON",
+        "REMOTEDB_BUILD_EXAMPLES": "ON",
+        "REMOTEDB_VALGRIND": "ON"
+      }
+    },
+    {
+      "name": "fuzz",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "REMOTEDB_TARGET_ID": "x86_64-linux-gnu",
+        "REMOTEDB_BUILD_TESTS": "OFF",
+        "REMOTEDB_BUILD_EXAMPLES": "OFF",
+        "REMOTEDB_BUILD_FUZZERS": "ON"
+      }
+    },
+    {
+      "name": "x86_64-linux-gnu-release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "REMOTEDB_TARGET_ID": "x86_64-linux-gnu",
+        "REMOTEDB_BUILD_TESTS": "ON",
+        "REMOTEDB_BUILD_EXAMPLES": "ON"
+      }
+    },
+    {
+      "name": "x86_64-linux-musl-release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "REMOTEDB_TARGET_ID": "x86_64-linux-musl",
+        "REMOTEDB_BUILD_TESTS": "ON",
+        "REMOTEDB_BUILD_EXAMPLES": "ON"
+      }
+    },
+    {
+      "name": "aarch64-linux-gnu-release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "REMOTEDB_TARGET_ID": "aarch64-linux-gnu",
+        "REMOTEDB_BUILD_TESTS": "OFF",
+        "REMOTEDB_BUILD_EXAMPLES": "OFF"
+      }
+    },
+    {
+      "name": "aarch64-linux-musl-release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "REMOTEDB_TARGET_ID": "aarch64-linux-musl",
+        "REMOTEDB_BUILD_TESTS": "OFF",
+        "REMOTEDB_BUILD_EXAMPLES": "OFF"
+      }
+    },
+    {
+      "name": "armhf-linux-gnu-release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "REMOTEDB_TARGET_ID": "armhf-linux-gnu",
+        "REMOTEDB_BUILD_TESTS": "OFF",
+        "REMOTEDB_BUILD_EXAMPLES": "OFF"
+      }
+    },
+    {
+      "name": "armhf-linux-musl-release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "REMOTEDB_TARGET_ID": "armhf-linux-musl",
+        "REMOTEDB_BUILD_TESTS": "OFF",
+        "REMOTEDB_BUILD_EXAMPLES": "OFF"
+      }
+    },
+    {
+      "name": "arm64-apple-darwin-release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "REMOTEDB_TARGET_ID": "arm64-apple-darwin",
+        "REMOTEDB_BUILD_TESTS": "OFF",
+        "REMOTEDB_BUILD_EXAMPLES": "OFF"
+      }
+    },
+    {
+      "name": "e2e-gnu",
+      "inherits": "x86_64-linux-gnu-release",
+      "cacheVariables": {
+        "REMOTEDB_BUILD_TESTS": "OFF",
+        "REMOTEDB_BUILD_EXAMPLES": "OFF",
+        "REMOTEDB_BUILD_BINARY": "OFF",
+        "REMOTEDB_BUILD_SHARED": "OFF",
+        "REMOTEDB_BUILD_E2E_TESTS": "ON",
+        "REMOTEDB_INSTALL": "OFF"
+      }
+    },
+    {
+      "name": "e2e-musl",
+      "inherits": "x86_64-linux-musl-release",
+      "cacheVariables": {
+        "REMOTEDB_BUILD_TESTS": "OFF",
+        "REMOTEDB_BUILD_EXAMPLES": "OFF",
+        "REMOTEDB_BUILD_BINARY": "OFF",
+        "REMOTEDB_BUILD_SHARED": "OFF",
+        "REMOTEDB_BUILD_E2E_TESTS": "ON",
+        "REMOTEDB_INSTALL": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "jobs": 1
+    },
+    {
+      "name": "valgrind",
+      "configurePreset": "valgrind",
+      "jobs": 1
+    },
+    {
+      "name": "fuzz",
+      "configurePreset": "fuzz",
+      "jobs": 1
+    },
+    {
+      "name": "x86_64-linux-gnu-release",
+      "configurePreset": "x86_64-linux-gnu-release",
+      "jobs": 1
+    },
+    {
+      "name": "x86_64-linux-musl-release",
+      "configurePreset": "x86_64-linux-musl-release",
+      "jobs": 1
+    },
+    {
+      "name": "aarch64-linux-gnu-release",
+      "configurePreset": "aarch64-linux-gnu-release",
+      "jobs": 1
+    },
+    {
+      "name": "aarch64-linux-musl-release",
+      "configurePreset": "aarch64-linux-musl-release",
+      "jobs": 1
+    },
+    {
+      "name": "armhf-linux-gnu-release",
+      "configurePreset": "armhf-linux-gnu-release",
+      "jobs": 1
+    },
+    {
+      "name": "armhf-linux-musl-release",
+      "configurePreset": "armhf-linux-musl-release",
+      "jobs": 1
+    },
+    {
+      "name": "arm64-apple-darwin-release",
+      "configurePreset": "arm64-apple-darwin-release",
+      "jobs": 1
+    },
+    {
+      "name": "e2e-gnu",
+      "configurePreset": "e2e-gnu",
+      "jobs": 1
+    },
+    {
+      "name": "e2e-musl",
+      "configurePreset": "e2e-musl",
+      "jobs": 1
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "jobs": 1,
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "valgrind",
+      "configurePreset": "valgrind",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "jobs": 1,
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "x86_64-linux-gnu-release",
+      "configurePreset": "x86_64-linux-gnu-release",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "jobs": 1,
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "x86_64-linux-musl-release",
+      "configurePreset": "x86_64-linux-musl-release",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "jobs": 1,
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    }
+  ]
+}
